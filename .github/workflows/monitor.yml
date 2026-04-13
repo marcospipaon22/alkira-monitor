@@ -1,0 +1,52 @@
+name: 🏠 Monitor Francos Rodríguez
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  vigilar:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 ¿Ya se envió la alerta?
+        id: estado
+        run: |
+          if [ -f "ALERTA_ENVIADA.flag" ]; then
+            echo "ya_alertado=true"  >> "$GITHUB_OUTPUT"
+            echo "✅ Alerta ya enviada en el pasado. Monitorización detenida."
+          else
+            echo "ya_alertado=false" >> "$GITHUB_OUTPUT"
+            echo "🔄 Sin alertas previas. Comprobando la página..."
+          fi
+
+      - name: 🐍 Setup Python
+        if: steps.estado.outputs.ya_alertado == 'false'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Instalar requests
+        if: steps.estado.outputs.ya_alertado == 'false'
+        run: pip install requests
+
+      - name: 🕵️ Revisar página
+        if: steps.estado.outputs.ya_alertado == 'false'
+        id: revision
+        continue-on-error: true
+        env:
+          NOTIFY_EMAIL:       ${{ secrets.NOTIFY_EMAIL }}
+          GMAIL_ADDRESS:      ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NTFY_TOPIC:         ${{ secrets.NTFY_TOPIC }}
+        run: python monitor.py
+
+      - name: 🚩 Marcar alerta como enviada
+        if: |
+          steps.estado.outputs.ya_alertado == 'false' &&
+          steps.revision.outcome
