@@ -80,50 +80,50 @@ def enviar_email(abiertos):
         print("⚠️  Faltan credenciales de email.")
         return
 
-    es_francos = any("Francos" in e["nombre"] for e in abiertos)
-    asunto = "🚨 PISO FRANCOS ABIERTO 🚨" if es_francos else "🚨 ALKIRA — Nuevo edificio abierto para reservar"
-
     filas_html = ""
     for e in abiertos:
-        es_el_tuyo = "Francos" in e["nombre"]
-        bg = "#e74c3c" if es_el_tuyo else "#2c3e50"
-        extra = " ⭐ ¡ESTE ES EL TUYO!" if es_el_tuyo else ""
         filas_html += f"""
-        <div style="background:{bg};border-radius:8px;padding:16px 20px;margin:10px 0;text-align:center;">
-          <p style="color:white;font-size:18px;font-weight:bold;margin:0 0 10px;">
-            🏠 {e['nombre']}{extra}
-          </p>
+        <div style="border:1px solid #e0e0e0;border-radius:8px;padding:14px 18px;
+                    margin:8px 0;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:15px;color:#333;">🏠 {e['nombre']}</span>
           <a href="{e['url']}"
-             style="display:inline-block;background:white;color:{bg};
-                    padding:10px 24px;text-decoration:none;border-radius:6px;
-                    font-size:16px;font-weight:bold;">
-            👉 IR A RESERVAR
+             style="background:#3a3a3a;color:white;padding:8px 18px;
+                    text-decoration:none;border-radius:6px;font-size:14px;white-space:nowrap;">
+            Ver edificio
           </a>
         </div>
         """
 
     html = f"""
-    <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
-      <div style="background:#e74c3c;border-radius:10px 10px 0 0;padding:30px 20px;text-align:center;">
-        <div style="font-size:48px;margin-bottom:10px;">🚨🏠🚨</div>
-        <h1 style="color:white;margin:0;font-size:26px;">
-          {'¡FRANCOS ABIERTO!' if es_francos else '¡NUEVO EDIFICIO ABIERTO!'}
+    <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;background:#ffffff;">
+
+      <div style="background:#2c3e50;border-radius:10px 10px 0 0;padding:25px 20px;text-align:center;">
+        <div style="font-size:36px;margin-bottom:8px;">🏘️</div>
+        <h1 style="color:white;margin:0;font-size:22px;font-weight:normal;letter-spacing:0.5px;">
+          Cambio realizado en la web de Alkira
         </h1>
       </div>
-      <div style="background:#f8f8f8;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 10px 10px;padding:25px 20px;">
-        <p style="font-size:18px;font-weight:bold;color:#222;text-align:center;margin:0 0 20px;">
-          ¡Ya están abiertas las reservas! ¡¡¡CORRE!!! 🏃💨
+
+      <div style="background:#f8f8f8;border:1px solid #e0e0e0;border-top:none;
+                  border-radius:0 0 10px 10px;padding:25px 20px;">
+
+        <p style="font-size:15px;color:#444;margin:0 0 20px;line-height:1.6;">
+          Se ha realizado un cambio en la web de Alkira. Entra para revisar
+          qué piso se ha puesto como disponible:
         </p>
+
         {filas_html}
-        <p style="color:#aaa;font-size:12px;text-align:center;margin-top:25px;">
-          Alerta generada el {datetime.utcnow().strftime("%d/%m/%Y a las %H:%M UTC")}
+
+        <p style="color:#bbb;font-size:12px;text-align:center;margin-top:25px;">
+          Aviso generado el {datetime.utcnow().strftime("%d/%m/%Y a las %H:%M UTC")}
         </p>
+
       </div>
     </body></html>
     """
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = asunto
+    msg["Subject"] = "🏘️ Cambio realizado en la web de Alkira"
     msg["From"]    = GMAIL_ADDRESS
     msg["To"]      = NOTIFY_EMAIL
     if NOTIFY_EMAIL_2:
