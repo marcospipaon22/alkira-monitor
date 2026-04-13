@@ -18,11 +18,9 @@ jobs:
         id: estado
         run: |
           if [ -f "ALERTA_ENVIADA.flag" ]; then
-            echo "ya_alertado=true"  >> "$GITHUB_OUTPUT"
-            echo "✅ Alerta ya enviada en el pasado. Monitorización detenida."
+            echo "ya_alertado=true" >> "$GITHUB_OUTPUT"
           else
             echo "ya_alertado=false" >> "$GITHUB_OUTPUT"
-            echo "🔄 Sin alertas previas. Comprobando la página..."
           fi
 
       - name: 🐍 Setup Python
@@ -43,10 +41,14 @@ jobs:
           NOTIFY_EMAIL:       ${{ secrets.NOTIFY_EMAIL }}
           GMAIL_ADDRESS:      ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          NTFY_TOPIC:         ${{ secrets.NTFY_TOPIC }}
         run: python monitor.py
 
       - name: 🚩 Marcar alerta como enviada
-        if: |
-          steps.estado.outputs.ya_alertado == 'false' &&
-          steps.revision.outcome
+        if: steps.estado.outputs.ya_alertado == 'false' && steps.revision.outcome == 'failure'
+        run: |
+          echo "Alerta enviada el $(date '+%d/%m/%Y a las %H:%M UTC')" > ALERTA_ENVIADA.flag
+          git config user.email "monitor-bot@github.com"
+          git config user.name  "Monitor Bot"
+          git add ALERTA_ENVIADA.flag
+          git commit -m "🚨 Alerta enviada — piso disponible"
+          git push
