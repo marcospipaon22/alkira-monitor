@@ -21,7 +21,7 @@ GMAIL_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 NTFY_TOPIC     = os.environ.get("NTFY_TOPIC", "")
 
 # Texto que aparece cuando el piso está CERRADO
-SEÑAL_CERRADO = "XYZXYZXYZ"
+SEÑAL_CERRADO = "PRÓXIMAMENTE"
 
 
 def revisar_pagina():
@@ -45,8 +45,8 @@ def enviar_email():
     msg = MIMEMultipart("alternative")
     msg["Subject"] = "🚨 PISO FRANCOS ABIERTO 🚨"
     msg["From"]    = GMAIL_ADDRESS
-    msg["To"] = NOTIFY_EMAIL
-msg["Cc"] = "lourdesnovillo1@gmail.com"
+    msg["To"]      = NOTIFY_EMAIL
+    msg["Cc"]      = os.environ.get("NOTIFY_EMAIL_2", "")
 
     html = f"""
     <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;background:#ffffff;">
