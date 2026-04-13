@@ -46,7 +46,8 @@ def enviar_email():
     msg["Subject"] = "🚨 PISO FRANCOS ABIERTO 🚨"
     msg["From"]    = GMAIL_ADDRESS
     msg["To"]      = NOTIFY_EMAIL
-    msg["Cc"]      = os.environ.get("NOTIFY_EMAIL_2", "")
+    if NOTIFY_EMAIL_2:
+        msg["Cc"]  = NOTIFY_EMAIL_2
 
     html = f"""
     <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;background:#ffffff;">
@@ -88,9 +89,10 @@ def enviar_email():
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
         s.login(GMAIL_ADDRESS, GMAIL_PASSWORD)
-        s.sendmail(GMAIL_ADDRESS, NOTIFY_EMAIL, msg.as_string())
+        destinatarios = [NOTIFY_EMAIL] + ([NOTIFY_EMAIL_2] if NOTIFY_EMAIL_2 else [])
+        s.sendmail(GMAIL_ADDRESS, destinatarios, msg.as_string())
 
-    print(f"✅ Email enviado a {NOTIFY_EMAIL}")
+    print(f"✅ Email enviado a {NOTIFY_EMAIL}" + (f" y {NOTIFY_EMAIL_2}" if NOTIFY_EMAIL_2 else ""))
 
 
 def enviar_ntfy():
