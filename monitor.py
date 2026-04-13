@@ -45,7 +45,8 @@ def enviar_email():
     msg = MIMEMultipart("alternative")
     msg["Subject"] = "🚨 PISO FRANCOS ABIERTO 🚨"
     msg["From"]    = GMAIL_ADDRESS
-    msg["To"]      = NOTIFY_EMAIL
+    msg["To"] = NOTIFY_EMAIL
+msg["Cc"] = "lourdesnovillo1@gmail.com"
 
     html = f"""
     <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;background:#ffffff;">
