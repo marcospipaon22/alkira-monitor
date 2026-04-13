@@ -21,7 +21,7 @@ GMAIL_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 NTFY_TOPIC     = os.environ.get("NTFY_TOPIC", "")
 
 # Texto que aparece cuando el piso está CERRADO
-SEÑAL_CERRADO = "XYZXYZXYZ"
+SEÑAL_CERRADO = "PRÓXIMAMENTE"
 
 
 def revisar_pagina():
