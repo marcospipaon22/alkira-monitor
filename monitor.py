@@ -43,34 +43,43 @@ def enviar_email():
         return
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = "🚨 ¡CORRE! Francos Rodríguez YA ESTÁ ABIERTO para reservar"
+    msg["Subject"] = "🚨 PISO FRANCOS ABIERTO 🚨"
     msg["From"]    = GMAIL_ADDRESS
     msg["To"]      = NOTIFY_EMAIL
 
     html = f"""
-    <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
-      <div style="background:#e74c3c;color:white;padding:25px;border-radius:8px 8px 0 0;text-align:center;">
-        <h1 style="margin:0;font-size:32px;">🚨 ¡ALERTA!</h1>
-        <p style="font-size:20px;margin:10px 0 0 0;">Francos Rodríguez está abierto para reservar</p>
+    <html><body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;background:#ffffff;">
+
+      <!-- Cabecera -->
+      <div style="background:#e74c3c;border-radius:10px 10px 0 0;padding:30px 20px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:10px;">🚨🏠🚨</div>
+        <h1 style="color:white;margin:0;font-size:28px;letter-spacing:1px;">PISO FRANCOS ABIERTO</h1>
       </div>
-      <div style="background:#f9f9f9;padding:25px;border:1px solid #ddd;border-radius:0 0 8px 8px;">
-        <p style="font-size:16px;">
-          La página ha dejado de mostrar <strong>"Próximamente"</strong>.
-          ¡Es el momento de entrar y reservar!
+
+      <!-- Cuerpo -->
+      <div style="background:#f8f8f8;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 10px 10px;padding:35px 30px;text-align:center;">
+
+        <p style="font-size:22px;font-weight:bold;color:#222;margin:0 0 10px;">
+          ¡Ya están abiertas las reservas de los pisos de Francos Rodríguez!
         </p>
-        <div style="text-align:center;margin:25px 0;">
-          <a href="{URL}"
-             style="background:#27ae60;color:white;padding:16px 32px;
-                    text-decoration:none;border-radius:6px;font-size:20px;
-                    font-weight:bold;">
-            👉 IR A RESERVAR AHORA
-          </a>
-        </div>
-        <p style="color:#999;font-size:12px;text-align:center;margin-top:20px;">
-          Alerta generada el {datetime.utcnow().strftime("%d/%m/%Y a las %H:%M UTC")}<br>
-          URL vigilada: {URL}
+
+        <p style="font-size:28px;margin:10px 0 30px;">
+          ¡¡¡CORRE!!!  🏃💨
         </p>
+
+        <a href="{URL}"
+           style="display:inline-block;background:#e74c3c;color:white;
+                  padding:18px 40px;text-decoration:none;border-radius:8px;
+                  font-size:20px;font-weight:bold;letter-spacing:0.5px;">
+          🏠 IR A RESERVAR AHORA
+        </a>
+
+        <p style="color:#aaa;font-size:12px;margin-top:30px;">
+          Alerta generada el {datetime.utcnow().strftime("%d/%m/%Y a las %H:%M UTC")}
+        </p>
+
       </div>
+
     </body></html>
     """
 
