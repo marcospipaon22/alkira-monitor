@@ -16,12 +16,13 @@ from email.mime.multipart import MIMEMultipart
 # ── Configuración (en GitHub Actions viene de los Secrets) ──────────
 URL            = "https://alkiraliving.com/promociones/urva-francos-rodriguez"
 NOTIFY_EMAIL   = os.environ.get("NOTIFY_EMAIL", "")
+NOTIFY_EMAIL_2 = os.environ.get("NOTIFY_EMAIL_2", "")
 GMAIL_ADDRESS  = os.environ.get("GMAIL_ADDRESS", "")
 GMAIL_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 NTFY_TOPIC     = os.environ.get("NTFY_TOPIC", "")
 
 # Texto que aparece cuando el piso está CERRADO
-SEÑAL_CERRADO = "XYZXYZXYZ"
+SEÑAL_CERRADO = "PRÓXIMAMENTE"
 
 
 def revisar_pagina():
