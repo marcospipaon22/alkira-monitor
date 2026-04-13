@@ -58,7 +58,7 @@ EDIFICIOS = [
     },
 ]
 
-SEÑAL_CERRADO = "XYZXYZXYZ"
+SEÑAL_CERRADO = "PRÓXIMAMENTE"
 
 HEADERS = {
     "User-Agent": (
